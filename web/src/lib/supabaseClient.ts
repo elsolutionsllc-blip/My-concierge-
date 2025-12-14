@@ -8,7 +8,23 @@ export const getSupabase = () => {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!supabaseUrl || !supabaseKey) {
-      throw new Error('Supabase credentials not configured')
+      console.error('Supabase credentials not configured', { supabaseUrl, supabaseKey })
+      // Return a mock client to prevent crashes
+      return {
+        auth: {
+          getSession: () => Promise.resolve({ data: { session: null } }),
+          onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+          signOut: () => Promise.resolve(),
+          signInWithOAuth: () => Promise.reject(new Error('Supabase not configured'))
+        },
+        table: () => ({
+          select: () => ({
+            order: () => ({
+              execute: () => Promise.resolve({ data: [] })
+            })
+          })
+        })
+      }
     }
 
     cachedSupabase = createClient(supabaseUrl, supabaseKey)
