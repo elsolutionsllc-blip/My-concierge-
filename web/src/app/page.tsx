@@ -35,14 +35,14 @@ export default function Home() {
   useEffect(() => {
     // Check active session
     const sb = getSupabase();
-    sb.auth.getSession().then(({ data: { session } }) => {
+    sb.auth.getSession().then(({ data: { session } }: any) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         checkPremiumStatus(session.user.id);
       }
     });
 
-    const { data: { subscription } } = sb.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = sb.auth.onAuthStateChange((_event: any, session: any) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         checkPremiumStatus(session.user.id);
