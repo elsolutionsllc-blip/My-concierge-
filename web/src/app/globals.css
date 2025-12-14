@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #020617;
+  /* Slate 950 */
+  --foreground: #e2e8f0;
+  /* Slate 200 */
+  --card-bg: rgba(15, 23, 42, 0.5);
+  /* Slate 900 / 50% */
+  --card-border: rgba(255, 255, 255, 0.1);
+  /* White 10% */
+  --accent: #fbbf24;
+  /* Amber 400 */
+  --text-heading: #FFFFFF;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-gold {
+  color: var(--accent);
+}
+
+.bg-gold {
+  background-color: var(--accent);
+}
+
+.border-gold-low {
+  border-color: var(--card-border);
+}
