@@ -59,7 +59,7 @@ export default function Home() {
     // In real implementation you'd call GET /user/:id/status
     // For MVP with no real DB connection, we can simulate:
     // If email contains "premium", they are premium.
-    const res = await fetch(`http://localhost:8000/user/${userId}/status`);
+    const res = await fetch(`/api/user/${userId}/status`);
     if (res.ok) {
       const data = await res.json();
       // setIsPremium(data.is_premium); 
@@ -73,7 +73,7 @@ export default function Home() {
   const { data: deals, isLoading, error } = useQuery<Deal[]>({
     queryKey: ["deals"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8000/deals");
+      const res = await fetch("/api/deals");
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
