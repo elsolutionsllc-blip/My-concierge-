@@ -146,8 +146,6 @@ export default function Home() {
       return mockDeals;
     },
   });
-    },
-  });
 
   const handleLogin = () => {
     // Navigate to /login
