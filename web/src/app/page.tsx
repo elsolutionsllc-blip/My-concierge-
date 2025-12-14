@@ -100,14 +100,18 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-[#0F172A] p-4 sm:p-6 lg:p-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0F172A] to-[#0F172A]">
+    <main className="min-h-screen bg-black">
+      {/* Luxe gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-black via-black to-slate-900 -z-10" />
+      <div className="fixed inset-0 opacity-40 -z-10 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(212,175,55,0.15),rgba(0,0,0,0))]" />
+
       <UpgradeModal
         isOpen={isUpgradeModalOpen}
         onClose={() => setIsUpgradeModalOpen(false)}
         onUpgrade={handleUpgrade}
       />
 
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <Navbar
           user={user}
           isPremium={isPremium}
@@ -116,17 +120,18 @@ export default function Home() {
           onUpgrade={() => setIsUpgradeModalOpen(true)}
         />
 
-        <div className="sticky top-0 z-10 -mx-4 bg-[#0F172A]/90 px-4 py-4 backdrop-blur-lg sm:translate-none sm:mx-0 sm:px-0 mb-8 border-b border-white/5">
+        <div className="sticky top-0 z-10 backdrop-blur-xl bg-black/40 -mx-4 px-4 py-4 mb-12 border-b border-white/5 sm:mx-0 sm:px-0">
           <FilterBar currentFilter={filter} onFilterChange={setFilter} />
         </div>
 
         {/* TONIGHT'S ESCAPES SECTION */}
         {(filter === "all" || filter === "hotel" || filter === "flight") && !isLoading && (
-          <div className="mb-12">
-            <h2 className="text-2xl text-white font-serif mb-6 flex items-center gap-3">
-              <span className="text-[#D4AF37]">✦</span> Tonight&apos;s Escapes
+          <div className="mb-16">
+            <h2 className="text-4xl text-white font-light mb-2 tracking-tight">
+              Tonight&apos;s Escapes
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+            <p className="text-sm text-amber-400/60 mb-8 font-light">Curated luxury experiences</p>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
               {filteredDeals?.filter(d => d.type !== 'ticket').slice(0, 2).map((deal) => (
                 <DealCard
                   key={deal.id}
@@ -139,28 +144,30 @@ export default function Home() {
           </div>
         )}
 
-        <h2 className="text-xl text-slate-500 font-bold uppercase tracking-widest mb-6 text-sm">All Opportunities</h2>
+        <div className="mb-8">
+          <h2 className="text-xl text-white/80 font-light uppercase tracking-[0.2em] text-sm">All Opportunities</h2>
+        </div>
 
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
               <div
                 key={i}
-                className="aspect-[16/9] animate-pulse rounded-xl bg-slate-800/50 border border-white/5"
+                className="aspect-[16/9] animate-pulse rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl"
               />
             ))}
           </div>
         ) : error ? (
-          <div className="rounded-xl border border-red-900/50 bg-red-900/10 p-8 text-center text-red-200">
-            Concierge Service Unavailable. Please check connection.
+          <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-12 text-center backdrop-blur-xl">
+            <p className="text-amber-400/80 font-light">Concierge Service Unavailable</p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {filteredDeals?.map((deal) => (
               <DealCard
                 key={deal.id}
                 deal={deal}
-                isBlurred={!isPremium && deal.type === 'flight'} // Example: Only blur high value items or all? Sticking to "All" for MVP impact
+                isBlurred={!isPremium && deal.type === 'flight'}
                 onUnlock={() => setIsUpgradeModalOpen(true)}
               />
             ))}
