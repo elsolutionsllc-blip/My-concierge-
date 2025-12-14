@@ -148,7 +148,7 @@ export default function Home() {
   });
 
   const handleLogin = () => {
-    // Navigate to /login
+    // Navigate to /login page
     window.location.href = "/login";
   };
 
