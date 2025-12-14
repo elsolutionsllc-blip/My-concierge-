@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-let supabase: any = null
+let cachedSupabase: any = null
 
 export const getSupabase = () => {
-  if (!supabase) {
+  if (!cachedSupabase) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -11,14 +11,7 @@ export const getSupabase = () => {
       throw new Error('Supabase credentials not configured')
     }
 
-    supabase = createClient(supabaseUrl, supabaseKey)
+    cachedSupabase = createClient(supabaseUrl, supabaseKey)
   }
-  return supabase
+  return cachedSupabase
 }
-
-// For backwards compatibility, export as a getter
-export const supabase = new Proxy({} as any, {
-  get: (target, prop) => {
-    return getSupabase()[prop as string]
-  }
-})
