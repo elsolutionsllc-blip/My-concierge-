@@ -6,8 +6,10 @@ import { DealCard } from "@/components/DealCard";
 import { FilterBar } from "@/components/FilterBar";
 import { Navbar } from "@/components/Navbar";
 import { UpgradeModal } from "@/components/UpgradeModal";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
+
+export const dynamic = 'force-dynamic';
 
 interface Deal {
   id: string;
@@ -32,14 +34,15 @@ export default function Home() {
   // Auth State Listener
   useEffect(() => {
     // Check active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const sb = getSupabase();
+    sb.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         checkPremiumStatus(session.user.id);
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = sb.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         checkPremiumStatus(session.user.id);
@@ -84,7 +87,7 @@ export default function Home() {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await getSupabase().auth.signOut();
   };
 
   const handleUpgrade = () => {

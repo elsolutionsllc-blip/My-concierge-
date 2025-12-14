@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabase } from "@/lib/supabaseClient";
+
+export const dynamic = 'force-dynamic';
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async () => {
         setLoading(true);
-        await supabase.auth.signInWithOAuth({
+        await getSupabase().auth.signInWithOAuth({
             provider: "google",
             options: {
                 redirectTo: window.location.origin,
